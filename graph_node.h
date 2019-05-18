@@ -56,6 +56,11 @@ namespace graph{
                 marked = false;
             }
 
+            //sets marked to true
+            void setMarked(){
+                marked = true;
+            }
+
         private:
             std::vector<graph_node*> out;
             std::string station;
