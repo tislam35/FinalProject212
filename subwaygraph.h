@@ -15,6 +15,10 @@ namespace graph{
                 found = false;
             }
 
+            graph::graph_node* getStart(){
+                return start;
+            }
+
             void setCurrent(graph_node* a) {
                 current = a;
             }
@@ -32,6 +36,10 @@ namespace graph{
                 }
                 //std::cout << "Invalid connection" << std::endl;
                 return false;
+            }
+
+            std::vector<graph::graph_node*> returnPath(){
+                return path;
             }
 
             bool compareName(std::string target, graph_node* A) {    
@@ -69,9 +77,38 @@ namespace graph{
                 //first i need to find the location of the 2 stations and store them in a graph_node*
                 graph::graph_node* a = findLink(start,first);
                 graph::graph_node* b = findLink(start,target);
-                std::cout << a->stationName() << "\n" << b->stationName();
                 std::vector<char> trainsa = a->getTrains();
                 std::vector<char> trainsb = b->getTrains();
+                //if they share a train then i can just look for a train they share and print that
+                if(sharedTrain(a,b) == true){
+                    char ans = getSharedTrain(a,b);
+                    std::cout << "Take the " << ans << " train to get to " << target << " from " << first << std::endl;
+                }
+                //getting here means that they do not have a train in common and transfers will be needed
+                else{
+                    getPath(a,target);
+                    found = false;
+                    //now i have the path in private variable path, path[0] is the target node
+                    std::cout << "To get from " << first << " to " << target << ":\nTake the ";
+                    for(int i = path.size()-2; i > 0; i--){
+                        graph::graph_node* previo = path[i+1];
+                        graph::graph_node* curren = path[i];
+                        std::string theName = curren->stationName();
+                        char ans = getSharedTrain(curren,previo);
+                        std::cout << ans << " train to " << theName << "\nThen take the ";
+                    }
+                    char last1 = getSharedTrain(path[0],path[1]);
+                    std::cout << last1 << " train to " << target << std::endl;
+                    path.clear();
+                }
+            }
+
+            //overloaded version of routeTo that doesnt throw bad::alloc
+            void routeTo(graph_node* a, graph_node* b) {
+                std::vector<char> trainsa = a->getTrains();
+                std::vector<char> trainsb = b->getTrains();
+                std::string first = a->stationName();
+                std::string target = b->stationName();
                 //if they share a train then i can just look for a train they share and print that
                 if(sharedTrain(a,b) == true){
                     char ans = getSharedTrain(a,b);
@@ -149,7 +186,6 @@ namespace graph{
                     std::vector<graph_node*> links = current->getOut();
                     for(int i = 0; i < links.size(); i++){
                         graph_node* temp = links[i];
-                        std::cout << temp->getMarked() << "\t";
                         if(temp->getMarked() == false){
                             getPath(temp,target);
                         }
@@ -159,7 +195,6 @@ namespace graph{
                 }
                 if(found){
                     path.push_back(temper);
-                    std::cout << temper->stationName() << "\t";
                 }
                 temper->resetMarked();
             }
@@ -168,7 +203,7 @@ namespace graph{
                 for (int i=0;i<a->getOut().size();i++) {              //check surrounding stations to see if any matches hit, if so return true and end the recursion
                     if (compareName(target, a->getOut()[i]) == true) {
                         //std::cout << "name found" << std::endl;
-                        //std::cout << a->getOut()[i]->stationName() << std::endl;     
+                        //std::cout << a->getOut()[i]->stationName() << std::endl;
                         return true;
                     }
                 }
