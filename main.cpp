@@ -18,33 +18,34 @@
 
         graph::graph_node dog("125th St", "test");
         //std::cout << dog.getTrains()[0] << std::endl;
+        
         //For all A train between 145st and fulton street
-        graph::graph_node* a = new graph_node("125street / Saint Nicholas Avenue ","ABCD");
-        graph::graph_node* b = new graph_node("145street / Saint Nicholas Avenue ","ABCD");
+        graph::graph_node* a = new graph_node("125street / Saint Nicholas Avenue ","AD");
+        graph::graph_node* b = new graph_node("145street / Saint Nicholas Avenue ","AD");
         setConnection(a,b);
         
-        graph::graph_node* c = new graph_node("59street / Columbus Circle ","ABCD12");
-        graph::graph_node* d = new graph_node("125street / Saint Nicholas Avenue ","ABCD");
+        graph::graph_node* c = new graph_node("59street / Columbus Circle ","AD12");
+        graph::graph_node* d = new graph_node("125street / Saint Nicholas Avenue ","AD");
         setConnection(c,d);
 
-        graph::graph_node* e = new graph_node("42street Port Authority Bus Terminal / 8 Avenue ","ACENQRSW1237");
-        graph::graph_node* f = new graph_node("59street Columbus Circle / 8 Avenue ","ABCD12");
+        graph::graph_node* e = new graph_node("42street Port Authority Bus Terminal / 8 Avenue ","ANQRSW1237");
+        graph::graph_node* f = new graph_node("59street Columbus Circle / 8 Avenue ","AD12");
         setConnection(e,f);
 
         graph::graph_node* g = new graph_node("34 Street-Penn Station / 8 Avenue ","ACE");
         graph::graph_node* h = new graph_node("42street Port Authority Bus Terminal / 8 Avenue ","ACENQRSW1237");
         setConnection(g,h);
 
-        graph::graph_node* i = new graph_node("14 Street / 8 Avenue ","ACE");
-        graph::graph_node* j = new graph_node("34 Street-Penn Station / 8 Avenue ","ACE");
+        graph::graph_node* i = new graph_node("14 Street / 8 Avenue ","AE");
+        graph::graph_node* j = new graph_node("34 Street-Penn Station / 8 Avenue ","AE");
         setConnection(i,j);
 
         graph::graph_node* k = new graph_node("West 4 Street / 8 Avenue ","ABCDEFM");
         graph::graph_node* l = new graph_node("14 Street / 8 Avenue ","ACE");
         setConnection(k,l);
         
-        graph::graph_node* m = new graph_node("Canal Street / 6 Avenue ","ACE");
-        graph::graph_node* n = new graph_node("West 4 Street / 8 Avenue ","ABCDEFM");
+        graph::graph_node* m = new graph_node("Canal Street / 6 Avenue ","AE");
+        graph::graph_node* n = new graph_node("West 4 Street / 8 Avenue ","ABDEFM");
         setConnection(m,n);
 
         graph::graph_node* m = new graph_node("Chambers Street / Church Street ","ACE23NRW");
@@ -57,7 +58,7 @@
 
 //For all C train between 145st and fulton street
         graph::graph_node* a0 = new graph_node("135street / Saint Nicholas Avenue ","BC");
-        graph::graph_node* b0 = new graph_node("135street / Saint Nicholas Avenue ","ABCC");
+        graph::graph_node* b0 = new graph_node("145street / Saint Nicholas Avenue ","ABCD");
         setConnection(a0,b0);
         
         graph::graph_node* a1 = new graph_node("125street / Saint Nicholas Avenue ","BC");
@@ -119,7 +120,6 @@
         graph::graph_node* C1 = new graph_node("Canal Street / 6 Avenue ","ACE");
         graph::graph_node* D1 = new graph_node("Spring Street / 6 Avenue ","CE");
         setConnection(C1,D1);
-        
 
         return 0;
     }
