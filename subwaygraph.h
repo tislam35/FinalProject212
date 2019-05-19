@@ -31,7 +31,7 @@ namespace graph {
                         }
                     }
                 }
-                std::cout << "Invalid connection" << std::endl;
+                //std::cout << "Invalid connection" << std::endl;
                 return false;
             }
 
@@ -141,9 +141,30 @@ namespace graph {
                 return false;
             }
 
-            
-            //under construction
-
+            //underConstruction function
+            void underConstruction(std::string target, subway_graph source) {
+                if (searchFor(target, source) == true) {
+                    findLink(target);
+                    for (int i=0;i<current->getOut().size();i++) {
+                        for (int j=0;j<current->getOut().size();j++) {
+                            if ((sharedTrain(current->getOut()[i], current->getOut()[j]) == true) && (i != j)) {
+                                //connect the two links in question, and then remove the link of current from them:
+                                current->getOut()[i]->setOutAdd(current->getOut()[j]);
+                                current->getOut()[j]->setOutAdd(current->getOut()[i]);
+                                //link removal needs to go here, and possible decrement of i and j if we're changing the vector size? WIP
+                            }
+                            else {continue;}
+                        }
+                    }
+                    //you need to iterate through the vector of links, and for each position, link it to every other link of the current node.  
+                        //only do so if the two links we are looking at have matching trains, use the bool compareTrains
+                }
+                else {
+                    throw std::out_of_range(std::string("Station does not exist"));
+                }
+            }
+      
+        
             //size function
 
         private:
