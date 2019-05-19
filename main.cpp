@@ -5,122 +5,74 @@
 #include <vector>
 #include "subwaygraph.h"
 
-
     int main() {
 
-        //some basic test code for constructing a graph_node, works confirmed
-        std::vector<char> test;
-        test.push_back('A');
-        test.push_back('B');
-        for (int i=0;i<2;i++) {
-            std::cout<<test[i]<<std::endl;
-        }           
-
-        graph::graph_node dog("125th St", "test");
-        //std::cout << dog.getTrains()[0] << std::endl;
+       graph::graph_node* s19 = new graph::graph_node("145 St", "ABCD");        //construction of a station, initialized by giving the name of station followed by the trains it has, without any spaces
+        graph::graph_node* s18 = new graph::graph_node("135 St", "BC");
+        graph::graph_node* s17 = new graph::graph_node("125 St", "ABCD");
+        graph::graph_node* s16 = new graph::graph_node("116 St", "BC");
+        graph::graph_node* s15 = new graph::graph_node("110 St", "BC");
+        graph::graph_node* s14 = new graph::graph_node("103 St", "BC");
+        graph::graph_node* s13 = new graph::graph_node("96 St", "BC");
+        graph::graph_node* s12 = new graph::graph_node("86 St", "BC");
+        graph::graph_node* s11 = new graph::graph_node("81 St", "BC");
+        graph::graph_node* s10 = new graph::graph_node("72 St", "BC");
+        graph::graph_node* s9 = new graph::graph_node("59 St", "ABCD1");
+        graph::graph_node* s8 = new graph::graph_node("50 St", "CE");
+        graph::graph_node* s20 = new graph::graph_node("42 St", "ACE");
+        graph::graph_node* s7 = new graph::graph_node("7 Av", "BDE");
+        graph::graph_node* s6 = new graph::graph_node("5 Av", "EM");
+        graph::graph_node* s5 = new graph::graph_node("Lexington Av", "EM");
+        graph::graph_node* s4 = new graph::graph_node("Court Sq-23", "EM");
+        graph::graph_node* s3 = new graph::graph_node("Queens Plaza", "EMR");
+        graph::graph_node* s2 = new graph::graph_node("Jackson Hts Roosevelt Av", "EFMR7");
+        graph::graph_node* s1 = new graph::graph_node("Elmhurst Av", "MR");
         
-        //For all A train between 145st and fulton street
-        graph::graph_node* a = new graph_node("125street / Saint Nicholas Avenue ","AD");
-        graph::graph_node* b = new graph_node("145street / Saint Nicholas Avenue ","AD");
-        setConnection(a,b);
+        graph::subway_graph theMap(s5);                             //creating the subway_graph object that performs more complex methods on the whole map of station nodes
+
+        theMap.setConnection(s1,s2);                                //setConnection establishes an undirected link between two stations so that other functions may utilize them correctly
+        theMap.setConnection(s2,s3);
+        theMap.setConnection(s3,s4);
+        theMap.setConnection(s4,s5);
+        theMap.setConnection(s5,s6);
+        theMap.setConnection(s6,s7);
+        theMap.setConnection(s7,s8);
+        theMap.setConnection(s7,s9);
+        theMap.setConnection(s9,s8);
+        theMap.setConnection(s9,s20);
+        theMap.setConnection(s8,s20);
+        theMap.setConnection(s9,s17);
+        theMap.setConnection(s9,s10);
+        theMap.setConnection(s10,s11);
+        theMap.setConnection(s11,s12);
+        theMap.setConnection(s12,s13);
+        theMap.setConnection(s13,s14);
+        theMap.setConnection(s14,s15);
+        theMap.setConnection(s15,s16);
+        theMap.setConnection(s16,s17);
+        theMap.setConnection(s17,s19);
+        theMap.setConnection(s17,s18);
+
+        //theMap.routeTo("Lexington Av", "59 St");                        
         
-        graph::graph_node* c = new graph_node("59street / Columbus Circle ","AD12");
-        graph::graph_node* d = new graph_node("125street / Saint Nicholas Avenue ","AD");
-        setConnection(c,d);
+        //theMap.routeTo("Lexington Av", "59 St");
+        theMap.getPath(s1, "145 St");
+        /*std::vector<graph::graph_node*> a = theMap.returnPath();
+        for(int i = 0; i < a.size(); i++){
+            std::cout << a[i]->stationName() << std::endl;
+        }*/
 
-        graph::graph_node* e = new graph_node("42street Port Authority Bus Terminal / 8 Avenue ","ANQRSW1237");
-        graph::graph_node* f = new graph_node("59street Columbus Circle / 8 Avenue ","AD12");
-        setConnection(e,f);
+        theMap.routeTo(s1,s19);                                         //routeTo displays a potential route to take between 2 stations, an example of how
+                                                                        //our data structure can be used to create more complex functions that could be valuable for end users                                        
 
-        graph::graph_node* g = new graph_node("34 Street-Penn Station / 8 Avenue ","ACE");
-        graph::graph_node* h = new graph_node("42street Port Authority Bus Terminal / 8 Avenue ","ACENQRSW1237");
-        setConnection(g,h);
+        if ((theMap.searchFor(theMap.getStart(), "145 St")) == true) {  //searchFor traverses the entire graph and finds a station whose name matches the target inputted  
+            std::cout << "The station exists" << std::endl;
+        }
 
-        graph::graph_node* i = new graph_node("14 Street / 8 Avenue ","AE");
-        graph::graph_node* j = new graph_node("34 Street-Penn Station / 8 Avenue ","AE");
-        setConnection(i,j);
+        graph::graph_node* test = theMap.findLink(theMap.getStart(), "125 St");     //findLink is similar to searchFor, but returns the entire node itself (while searchFor is just a boolean value)
 
-        graph::graph_node* k = new graph_node("West 4 Street / 8 Avenue ","ABCDEFM");
-        graph::graph_node* l = new graph_node("14 Street / 8 Avenue ","ACE");
-        setConnection(k,l);
+        theMap.displayStations(s9);                                //displayStations examines a particular station in the graph and displays all of its connections/edges
         
-        graph::graph_node* m = new graph_node("Canal Street / 6 Avenue ","AE");
-        graph::graph_node* n = new graph_node("West 4 Street / 8 Avenue ","ABDEFM");
-        setConnection(m,n);
-
-        graph::graph_node* m = new graph_node("Chambers Street / Church Street ","ACE23NRW");
-        graph::graph_node* n = new graph_node("Canal Street / 6 Avenue ","ACE");
-        setConnection(m,n);
-
-        graph::graph_node* o = new graph_node("Fulton Street / Broadway","ACJZ2345");
-        graph::graph_node* p = new graph_node("Chambers Street / Church Street ","ACE23NRW");
-        setConnection(o,p);
-
-//For all C train between 145st and fulton street
-        graph::graph_node* a0 = new graph_node("135street / Saint Nicholas Avenue ","BC");
-        graph::graph_node* b0 = new graph_node("145street / Saint Nicholas Avenue ","ABCD");
-        setConnection(a0,b0);
-        
-        graph::graph_node* a1 = new graph_node("125street / Saint Nicholas Avenue ","BC");
-        graph::graph_node* b1 = new graph_node("135street / Saint Nicholas Avenue ","ABCD");
-        setConnection(a1,b1);
-
-        graph::graph_node* c1 = new graph_node("116 Street / 8 Avenue ","BC");
-        graph::graph_node* d1 = new graph_node("125street / Saint Nicholas Avenue ","ABCD");
-        setConnection(c1,d1);
-
-        graph::graph_node* e1 = new graph_node("Cathedral Parkway (110 Street) / Central Park West ","BC");
-        graph::graph_node* f1 = new graph_node("116 Street / 8 Avenue ","BC");
-        setConnection(e1,f1);
-
-        graph::graph_node* g1 = new graph_node("103 Street / Central Park West ","BC");
-        graph::graph_node* h1 = new graph_node("Cathedral Parkway (110 Street) / Central Park West ","BC");
-        setConnection(g1,h1);
-
-        graph::graph_node* i1 = new graph_node("96 Street / Central Park West ","BC");
-        graph::graph_node* j1 = new graph_node("103 Street / Central Park West ","BC");
-        setConnection(i1,j1);
-
-        graph::graph_node* k1 = new graph_node("86 Street / Central Park West ","BC");
-        graph::graph_node* l1 = new graph_node("96 Street / Central Park West ","BC");
-        setConnection(k1,l1);
-
-        graph::graph_node* m1 = new graph_node("81 Street-Museum of Natural History / Central Park West ","BC");
-        graph::graph_node* n1 = new graph_node("86 Street / Central Park West ","BC");
-        setConnection(m1,n1);
-
-        graph::graph_node* o1 = new graph_node("72 Street / Central Park West ","BC");
-        graph::graph_node* p1 = new graph_node("81 Street-Museum of Natural History / Central Park West ","BC");
-        setConnection(o1,p1);
-
-        graph::graph_node* q1 = new graph_node("59street / Columbus Circle ","ABCD12");
-        graph::graph_node* r1 = new graph_node("72 Street / Central Park West ","BC");
-        setConnection(q1,r1);
-
-        graph::graph_node* s1 = new graph_node("50street / 8 Avenue ","CE");
-        graph::graph_node* t1 = new graph_node("59street / Columbus Circle ","ABCD12");
-        setConnection(s1,t1);
-
-        graph::graph_node* u1 = new graph_node("42street Port Authority Bus Terminal / 8 Avenue ","ACENQRSW1237");
-        graph::graph_node* v1 = new graph_node("50street / 8 Avenue ","CE");
-        setConnection(u1,v1);
-
-        graph::graph_node* w1 = new graph_node("23 Street / 8 Avenue ","CE");
-        graph::graph_node* x1 = new graph_node("34 Street-Penn Station / 8 Avenue ","ACE");
-        setConnection(w1,x1);
-
-        graph::graph_node* y1 = new graph_node("14 Street / 8 Avenue ","ACE");
-        graph::graph_node* z1 = new graph_node("23 Street / 8 Avenue ","CE");
-        setConnection(y1,z1);
-
-        graph::graph_node* A1 = new graph_node("Spring Street / 6 Avenue ","CE");
-        graph::graph_node* B1 = new graph_node("West 4 Street / 8 Avenue ","ABCDEFM");
-        setConnection(A1,B1);
-
-        graph::graph_node* C1 = new graph_node("Canal Street / 6 Avenue ","ACE");
-        graph::graph_node* D1 = new graph_node("Spring Street / 6 Avenue ","CE");
-        setConnection(C1,D1);
-
         return 0;
     }
 
