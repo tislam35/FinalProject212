@@ -6,13 +6,12 @@
 #include <string>
 #include "graph_node.h"
 
-namespace graph {
+namespace graph{
     class subway_graph {
         public:
             subway_graph(graph_node* a) {
                 start = a;
                 current = a;
-                stations = 1;
                 found = false;
             }
 
@@ -49,49 +48,86 @@ namespace graph {
                 if (sharedTrain(a,b) == true) {
                     a->setOutAdd(b);
                     b->setOutAdd(a);
-                    stations ++;
+                }
+            }
+
+            //will return a shared train
+            char getSharedTrain(graph_node* a, graph_node* b){
+                std::vector<char> trainsA = a->getTrains();
+                std::vector<char> trainsB = b->getTrains();
+                for (int i=0; i < trainsA.size(); i++) {
+                    for (int j = 0; j < trainsB.size(); j++) {
+                        if (trainsA[i] == trainsB[j]) {
+                            return trainsA[i];
+                        }
+                    }
                 }
             }
 
             //will return a vector of trains to take
             void routeTo(std::string first, std::string target) {
-                std::vector<char> result;
                 //first i need to find the location of the 2 stations and store them in a graph_node*
-                graph::graph_node* a = findLink(start,target);
+                graph::graph_node* a = findLink(start,first);
                 graph::graph_node* b = findLink(start,target);
+                std::cout << a->stationName() << "\n" << b->stationName();
                 std::vector<char> trainsa = a->getTrains();
                 std::vector<char> trainsb = b->getTrains();
                 //if they share a train then i can just look for a train they share and print that
                 if(sharedTrain(a,b) == true){
-                    for (int i=0; i < trainsa.size(); i++) {
-                        for (int j = 0; j < trainsb.size(); j++) {
-                            if (trainsa[i] == trainsb[j]) {
-                                std::cout << "Take the " << trainsa[i] << "train to get to " << target << std::endl;
-                                return;
-                            }
-                        }
-                    }
+                    char ans = getSharedTrain(a,b);
+                    std::cout << "Take the " << ans << " train to get to " << target << " from " << first << std::endl;
                 }
                 //getting here means that they do not have a train in common and transfers will be needed
-                //else{
-                    //getPath(a,target);
-                    //found = false;
-                    //now i have the path in private variable path, ill finish this method tomorrow
-                //}
+                else{
+                    getPath(a,target);
+                    found = false;
+                    //now i have the path in private variable path, path[0] is the target node
+                    std::cout << "To get from " << first << " to " << target << ":\nTake the ";
+                    for(int i = path.size()-2; i > 0; i--){
+                        graph::graph_node* previo = path[i+1];
+                        graph::graph_node* curren = path[i];
+                        std::string theName = curren->stationName();
+                        char ans = getSharedTrain(curren,previo);
+                        std::cout << ans << " train to " << theName << "\nThen take the ";
+                    }
+                    char last1 = getSharedTrain(path[0],path[1]);
+                    std::cout << last1 << " train to " << target << std::endl;
+                    path.clear();
+                }
             }
 
             //a search method for getting the pointer to a target string
+            /**
+            graph::graph_node* findLink(graph_node* first, std::string target){
+                graph_node* temper = first;
+                current = first;
+                if(current->stationName().compare(target) == 0){
+                    return current;
+                    std::cout << current->stationName() << "\n" << target;
+                }
+                else{
+                    current->setMarked();
+                    std::vector<graph_node*> links = current->getOut();
+                    for(int i = 0; i < links.size(); i++){
+                        graph_node* temp = links[i];
+                        if(temp->getMarked() == false){
+                            findLink(temp, target);
+                        }
+                    }
+                }
+                temper->resetMarked();
+            }*/
+
             graph::graph_node* findLink(graph_node* a, std::string target) {
                 for (int i=0;i<a->getOut().size();i++) {              //check surrounding stations to see if any matches hit, if so return true and end the recursion
                     if (compareName(target, a->getOut()[i]) == true) {
                         //std::cout << "name found" << std::endl;
-                        //std::cout << a->getOut()[i]->stationName() << std::endl;  
+                        //std::cout << a->getOut()[i]->stationName() << std::endl;
                         a->resetMarked();
                         return a->getOut()[i];
                     }
                 }
-                a->setMarked();
-                //since surrounding stations have been checked, this station is marked off so that it is not recurred on (otherwise it would be an endless recursion)
+                a->setMarked();                                       //since surrounding stations have been checked, this station is marked off so that it is not recurred on (otherwise it would be an endless recursion)
                 for (int i=0;i<a->getOut().size();i++) {
                     if (a->getOut()[i]->getMarked() == false) {       //checks if the station about to recur on is marked or not to prevent endless recursion using the previous line
                         if (searchFor(a->getOut()[i],target) == true) {
@@ -100,11 +136,34 @@ namespace graph {
                         }
                     }
                 }
-                a->resetMarked();
             }
-          
-            //method for searching to see if a station exists in a subway map            
 
+            //function to store a vector of graph_node*s that represent the path from start to target in the private variable called path
+            void getPath(graph_node* first, std::string target){
+                graph_node* temper = first;
+                current = first;
+                if(current->stationName().compare(target) == 0)
+                    found = true;
+                else{
+                    current->setMarked();
+                    std::vector<graph_node*> links = current->getOut();
+                    for(int i = 0; i < links.size(); i++){
+                        graph_node* temp = links[i];
+                        std::cout << temp->getMarked() << "\t";
+                        if(temp->getMarked() == false){
+                            getPath(temp,target);
+                        }
+                        if(found)
+                            break;
+                    }
+                }
+                if(found){
+                    path.push_back(temper);
+                    std::cout << temper->stationName() << "\t";
+                }
+                temper->resetMarked();
+            }
+            
             bool searchFor(graph_node* a, std::string target) {
                 for (int i=0;i<a->getOut().size();i++) {              //check surrounding stations to see if any matches hit, if so return true and end the recursion
                     if (compareName(target, a->getOut()[i]) == true) {
@@ -124,33 +183,11 @@ namespace graph {
                 return false;
             }
 
-            //function to store a vector of graph_node*s that represent the path from start to target in the private variable called path
-            void getPath(graph_node* first, std::string target){
-                current = first;
-                if(current->stationName().compare(target) == 0)
-                    found = true;
-                else{
-                    current->setMarked();
-                    std::vector<graph_node*> links = current->getOut();
-                    for(int i = 0; i < links.size(); i++){
-                        graph_node* temp = links[i];
-                        if(temp->getMarked() == false){
-                            getPath(temp,target);
-                        }
-                        if(found)
-                            break;
-                    }
-                }
-                if(found)
-                    path.push_back(current);
-                current->resetMarked();
-            }
-            
-            /*
             //underConstruction function
+            /*
             void underConstruction(std::string target, subway_graph source) {
                 if (searchFor(target, source) == true) {
-                    findLink(target);
+                    findLink(start,target);
                     for (int i=0;i<current->getOut().size();i++) {
                         for (int j=0;j<current->getOut().size();j++) {
                             if ((sharedTrain(current->getOut()[i], current->getOut()[j]) == true) && (i != j)) {
@@ -176,7 +213,6 @@ namespace graph {
         private:
             graph::graph_node* start;
             graph::graph_node* current;
-            int stations;
             //the two variable below are intended for the getPath function
             bool found;
             std::vector<graph_node*> path;
