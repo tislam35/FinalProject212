@@ -16,7 +16,7 @@
             std::cout<<test[i]<<std::endl;
         }           
 
-        graph::graph_node dog("125th St", test);
+        graph::graph_node dog("125th St", "test");
         //std::cout << dog.getTrains()[0] << std::endl;
         
 
