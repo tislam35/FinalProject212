@@ -8,6 +8,7 @@
     int main() {
         
         //construction of a station, initialized by giving the name of station followed by the trains it has, without any spaces
+        //other way to do this : save the station name and trains in file and use for loop to call out each one and connect each of them.
         graph::graph_node* s19 = new graph::graph_node("145 St", "ABCD");        
         graph::graph_node* s18 = new graph::graph_node("135 St", "BC");
         graph::graph_node* s17 = new graph::graph_node("125 St", "ABCD");
