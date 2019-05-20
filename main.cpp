@@ -57,10 +57,8 @@
         theMap.setConnection(s17,s19);
         theMap.setConnection(s17,s18);
 
-        //theMap.routeTo("Lexington Av", "59 St");                        
-        
         //theMap.routeTo("Lexington Av", "59 St")
-        theMap.getPath(s1, "145 St");
+        //theMap.getPath(s1, "145 St");
         /*std::vector<graph::graph_node*> a = theMap.returnPath();
         for(int i = 0; i < a.size(); i++){
             std::cout << a[i]->stationName() << std::endl;
@@ -69,13 +67,14 @@
         theMap.routeTo(s1,s19);                                         //routeTo displays a potential route to take between 2 stations, an example of how
                                                                         //our data structure can be used to create more complex functions that could be valuable for end users                                        
 
-        if ((theMap.searchFor(theMap.getStart(), "145 St")) == true) {  //searchFor traverses the entire graph and finds a station whose name matches the target inputted  
-            std::cout << "The station exists" << std::endl;
+        std::string x = "145 St";
+        if ((theMap.searchFor(theMap.getStart(), x)) == true) {  //searchFor traverses the entire graph and finds a station whose name matches the target inputted  
+            std::cout << "The station " << x << " exists" << std::endl;
         }
 
-        graph::graph_node* test = theMap.findLink(theMap.getStart(), "125 St");     //findLink is similar to searchFor, but returns the entire node itself (while searchFor is just a boolean value)
+        //graph::graph_node* test = theMap.findLink(theMap.getStart(), "125 St");     //findLink is similar to searchFor, but returns the entire node itself (while searchFor is just a boolean value)
 
-        theMap.displayStations(s9);                                //displayStations examines a particular station in the graph and displays all of its connections/edges
+        //theMap.displayStations(s9);                                //displayStations examines a particular station in the graph and displays all of its connections/edges
         
         return 0;
     }
