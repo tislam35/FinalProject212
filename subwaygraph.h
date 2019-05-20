@@ -173,6 +173,7 @@ namespace graph{
                         }
                     }
                 }
+                a->resetMarked();
             }
 
             //function to store a vector of graph_node*s that represent the path from start to target in the private variable called path
@@ -204,6 +205,7 @@ namespace graph{
                     if (compareName(target, a->getOut()[i]) == true) {
                         //std::cout << "name found" << std::endl;
                         //std::cout << a->getOut()[i]->stationName() << std::endl;
+                        a->resetMarked();
                         return true;
                     }
                 }
@@ -211,10 +213,12 @@ namespace graph{
                 for (int i=0;i<a->getOut().size();i++) {
                     if (a->getOut()[i]->getMarked() == false) {       //checks if the station about to recur on is marked or not to prevent endless recursion using the previous line
                         if (searchFor(a->getOut()[i],target) == true) {
+                            a->resetMarked();
                             return true;
                         }
                     }
                 }
+                a->resetMarked();
                 return false;
             }
 
