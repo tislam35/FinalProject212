@@ -6,8 +6,9 @@
 #include "subwaygraph.h"
 
     int main() {
-
-       graph::graph_node* s19 = new graph::graph_node("145 St", "ABCD");        //construction of a station, initialized by giving the name of station followed by the trains it has, without any spaces
+        
+        //construction of a station, initialized by giving the name of station followed by the trains it has, without any spaces
+        graph::graph_node* s19 = new graph::graph_node("145 St", "ABCD");        
         graph::graph_node* s18 = new graph::graph_node("135 St", "BC");
         graph::graph_node* s17 = new graph::graph_node("125 St", "ABCD");
         graph::graph_node* s16 = new graph::graph_node("116 St", "BC");
@@ -28,9 +29,11 @@
         graph::graph_node* s2 = new graph::graph_node("Jackson Hts Roosevelt Av", "EFMR7");
         graph::graph_node* s1 = new graph::graph_node("Elmhurst Av", "MR");
         
-        graph::subway_graph theMap(s5);                             //creating the subway_graph object that performs more complex methods on the whole map of station nodes
+        //creating the subway_graph object that performs more complex methods on the whole map of station nodes
+        graph::subway_graph theMap(s5);
 
-        theMap.setConnection(s1,s2);                                //setConnection establishes an undirected link between two stations so that other functions may utilize them correctly
+        //setConnection establishes an undirected link between two stations so that other functions may utilize them correctly
+        theMap.setConnection(s1,s2);                                
         theMap.setConnection(s2,s3);
         theMap.setConnection(s3,s4);
         theMap.setConnection(s4,s5);
@@ -55,7 +58,7 @@
 
         //theMap.routeTo("Lexington Av", "59 St");                        
         
-        //theMap.routeTo("Lexington Av", "59 St");
+        //theMap.routeTo("Lexington Av", "59 St")
         theMap.getPath(s1, "145 St");
         /*std::vector<graph::graph_node*> a = theMap.returnPath();
         for(int i = 0; i < a.size(); i++){
