@@ -222,6 +222,12 @@ namespace graph{
                 return false;
             }
 
+            void displayStations(graph_node* a) {
+                for (int i=0;i<a->getOut().size();i++) {
+                    std::cout << a->getOut()[i]->stationName() << std::endl;
+                }
+            }
+
             /*countingstop(graph_node* start, graph_node* end)
             {
             retrun count;
