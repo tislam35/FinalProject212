@@ -222,6 +222,12 @@ namespace graph{
                 return false;
             }
 
+            /*countingstop(graph_node* start, graph_node* end)
+            {
+            retrun count;
+            }
+                
+            
             //underConstruction function
             /*
             void underConstruction(std::string target, subway_graph source) {
