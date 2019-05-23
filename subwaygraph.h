@@ -72,7 +72,9 @@ namespace graph{
                 }
             }
 
-            //will return a vector of trains to take
+            //will return a vector of trains to take given two strings, currently is limited to a first and target that are 
+            //1-6 stations apart, it throws a bad::alloc if the first and target are too far apart. Found to be due to the
+            //calling of findLink inside the function. findLink is working as intended in other functions and on its own
             void routeTo(std::string first, std::string target) {
                 //first i need to find the location of the 2 stations and store them in a graph_node*
                 graph::graph_node* a = findLink(start,first);
@@ -103,7 +105,7 @@ namespace graph{
                 }
             }
 
-            //overloaded version of routeTo that doesnt throw bad::alloc
+            //overloaded version of routeTo that doesnt throw bad::alloc. Working as intended as of 5/23
             void routeTo(graph_node* a, graph_node* b) {
                 std::vector<char> trainsa = a->getTrains();
                 std::vector<char> trainsb = b->getTrains();
