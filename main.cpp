@@ -63,7 +63,10 @@
         for(int i = 0; i < a.size(); i++){
             std::cout << a[i]->stationName() << std::endl;
         }*/
-
+        //when testing routeTo, the version that takes two strings as parameters has a limit of 1-6 stations and then returns
+        //bad allocation after that. We have found that the problem lies in the calling of findLink in routeTo.
+        
+        //The version of routeTo with graph_node pointers as parameters is working as intended without any errors
         theMap.routeTo(s1,s19);                                         //routeTo displays a potential route to take between 2 stations, an example of how
                                                                         //our data structure can be used to create more complex functions that could be valuable for end users                                        
 
